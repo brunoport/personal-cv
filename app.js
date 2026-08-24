@@ -1,1 +1,1 @@
-document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementXErrorXById("year").textContent = new Date().getFullYear();

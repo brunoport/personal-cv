@@ -1,4 +1,4 @@
-# Zachary Tan CV
+# Personal CV
 
 A dependency-free personal CV site built with raw HTML, CSS, and JavaScript. The site is ready to publish from this folder.
 
@@ -10,25 +10,25 @@ To see the site locally, open `index.html` in a browser. To edit its content, up
 
 ## 1. Sign in to GitHub and create the repository
 
-1. Go to [github.com/login](https://github.com/login) and sign in as `ZacharyDTan`.
+1. Go to [github.com/login](https://github.com/login) and sign in.
 2. Select the **+** menu in the upper-right corner, then select **New repository**.
 3. Enter `personal-cv` as the repository name.
 4. Choose **Public** so recruiters can view the source, or **Private** if you prefer. Vercel supports either option.
 5. Do not add a README, `.gitignore`, or license. This folder already has a README.
 6. Select **Create repository**.
-7. Leave the GitHub page open. You will copy its HTTPS repository address in the next section. It should look like `https://github.com/ZacharyDTan/personal-cv.git`.
+7. Leave the GitHub page open. You will copy its HTTPS repository address in the next section. It should look like `https://github.com/brunoport/personal-cv.git`.
 
 ## 2. Upload this site to GitHub
 
 Open PowerShell in the `Test CV` folder and run these commands one at a time. Replace the email with the email address associated with your GitHub account.
 
 ```powershell
-git config user.name "Zachary Tan"
+git config user.name "Your Name"
 git config user.email "your-github-email@example.com"
 git add .
 git commit -m "Create personal CV site"
 git branch -M main
-git remote add origin https://github.com/ZacharyDTan/personal-cv.git
+git remote add origin https://github.com/your_github_user/personal-cv.git
 git push -u origin main
 ```
 
@@ -37,7 +37,7 @@ The first `git push` may open a GitHub sign-in window or ask you to authenticate
 If Git says that `origin` already exists, use this instead of the `git remote add` command:
 
 ```powershell
-git remote set-url origin https://github.com/ZacharyDTan/personal-cv.git
+git remote set-url origin https://github.com/your_github_user/personal-cv.git
 git push -u origin main
 ```
 
@@ -89,13 +89,43 @@ The default Vercel Git integration deploys every push to `main`. For a more cont
 
 This prevents a pull request from merging while its CI checks fail. It does not replace the deployment workflow below; it protects the route into production.
 
-### Configure Vercel credentials
+### Stop Vercel's own Git deployments
 
-1. In the Vercel project, open **Settings** then **Git** and disable automatic Git deployments. This avoids a direct Vercel deployment racing the GitHub Actions deployment.
-2. In Vercel, open **Account Settings** then **Tokens** and create a token for GitHub Actions.
-3. In the Vercel project, open **Settings** then **General** and copy the **Project ID**. Copy the team or personal **Organization ID** from the same settings area.
-4. In the GitHub repository, open **Settings** then **Secrets and variables** then **Actions**.
-5. Add these repository secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID`.
+Vercel no longer has a single dashboard toggle to turn off automatic Git deployments, so use a `vercel.json` file instead. This keeps a direct Vercel deployment from racing the GitHub Actions deployment while still allowing the GitHub Actions `vercel deploy` command to work.
+
+Create `vercel.json` in the repository root with the following content:
+
+```json
+{
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"git": {
+		"deploymentEnabled": false
+	}
+}
+```
+
+Commit and push this file. `git.deploymentEnabled: false` disables only the deployments that Vercel triggers from Git pushes; deployments started by the Vercel CLI (which GitHub Actions uses) still run.
+
+### Create the Vercel access token
+
+1. In the Vercel dashboard, select your avatar in the upper-right corner, then select **Account Settings**.
+2. Select **Tokens** in the sidebar.
+3. Enter a name such as `github-actions`, set the **Scope** to the account or team that owns the `personal-cv` project, and choose an expiration.
+4. Select **Create** and copy the token value immediately. Vercel shows it only once. This value is your `VERCEL_TOKEN`.
+
+### Find the project and organization IDs
+
+1. Open the `personal-cv` project, select **Settings**, then **General**, and copy the **Project ID**. This value is your `VERCEL_PROJECT_ID`.
+2. Get the organization ID (`VERCEL_ORG_ID`):
+   - **Team project:** open the team's **Settings** then **General** and copy the **Team ID**.
+   - **Personal (Hobby) project:** open **Account Settings** then **General** and copy your **User ID**.
+
+If you prefer, you can install the Vercel CLI temporarily and run `vercel link` in the project folder. Vercel writes both IDs to `.vercel/project.json` as `projectId` and `orgId`. The `.vercel` folder is created locally only; do not commit it.
+
+### Add the GitHub secrets
+
+1. In the GitHub repository, open **Settings** then **Secrets and variables** then **Actions**.
+2. Add these repository secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID`.
 
 Never commit Vercel tokens or IDs that are marked secret to the repository.
 

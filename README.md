@@ -108,19 +108,20 @@ Commit and push this file. `git.deploymentEnabled: false` disables only the depl
 
 ### Create the Vercel access token
 
-1. In the Vercel dashboard, select your avatar in the upper-right corner, then select **Account Settings**.
-2. Select **Tokens** in the sidebar.
-3. Enter a name such as `github-actions`, set the **Scope** to the account or team that owns the `personal-cv` project, and choose an expiration.
-4. Select **Create** and copy the token value immediately. Vercel shows it only once. This value is your `VERCEL_TOKEN`.
+The token page lives under your **Personal Account**, not under a team, so switch context first. Do not use **Key Management**; that feature creates cryptographic signing keys, which are not access tokens.
+
+1. In the dashboard, open the account switcher in the upper-left corner and select your **Personal Account**.
+2. Go to [vercel.com/account/tokens](https://vercel.com/account/tokens), also reachable from your avatar in the lower-left corner then **Settings** then **Tokens**.
+3. Select **Create**, enter a name such as `github-actions`, and choose an expiration.
+4. Set the **Scope** to the account or team that owns the `personal-cv` project. The scope, not where the token lives, is what grants access to a team's project.
+5. Select **Create Token** and copy the value immediately. Vercel shows it only once. This value is your `VERCEL_TOKEN`.
 
 ### Find the project and organization IDs
 
-1. Open the `personal-cv` project, select **Settings**, then **General**, and copy the **Project ID**. This value is your `VERCEL_PROJECT_ID`.
+1. Open the `personal-cv` project itself from the dashboard, select its **Settings**, then **General**, and scroll to the bottom to find the **Project ID**. This value is your `VERCEL_PROJECT_ID`. The Project ID lives on the project, not in account or team settings.
 2. Get the organization ID (`VERCEL_ORG_ID`):
    - **Team project:** open the team's **Settings** then **General** and copy the **Team ID**.
-   - **Personal (Hobby) project:** open **Account Settings** then **General** and copy your **User ID**.
-
-If you prefer, you can install the Vercel CLI temporarily and run `vercel link` in the project folder. Vercel writes both IDs to `.vercel/project.json` as `projectId` and `orgId`. The `.vercel` folder is created locally only; do not commit it.
+   - **Personal (Hobby) project:** Vercel treats your personal account as a personal team, so the **Team ID** shown in your account's **Settings** then **General** is your `VERCEL_ORG_ID`.
 
 ### Add the GitHub secrets
 

@@ -4,7 +4,7 @@ A dependency-free personal CV site built with raw HTML, CSS, and JavaScript. The
 
 ## Before you publish
 
-You need a GitHub account, a Vercel account, and [Git for Windows](https://git-scm.com/download/win) installed. You do **not** need the GitHub or Vercel command-line tools.
+You need a GitHub account, a Vercel account, [Git for Windows](https://git-scm.com/download/win) installed, and a text editor. We recommend [Visual Studio Code](https://code.visualstudio.com/download). You do **not** need the GitHub or Vercel command-line tools.
 
 To see the site locally, open `index.html` in a browser. To edit its content, update the placeholder work and project cards in `index.html`; the colours and layout settings are at the top of `styles.css`.
 

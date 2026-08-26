@@ -1,5 +1,8 @@
 # Personal CV
 
+> This repository is a fork of the original repository by Bruno Port
+> [Repo](http://www.github.com/brunoport/personal-cv)
+
 A dependency-free personal CV site built with raw HTML, CSS, and JavaScript. The site is ready to publish from this folder.
 
 ## Before you publish
